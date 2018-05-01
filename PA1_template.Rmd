@@ -15,19 +15,28 @@ myData <- read_csv("activity.zip")
 
 ## What is mean total number of steps taken per day?
 
+1. Calculate the total number of steps taken per day
+```{r per day}
+require(dplyr)
+dayData <- myData %>%
+  group_by(date) %>%
+  summarise(day.steps=mean(steps,na.rm=TRUE))
+```
+
+
 1. a histogram of the total number of steps taken each day
 ```{r hist}
-hist(myData$steps)
+hist(dayData$day.steps)
 ```
 
 2. the mean total number of steps taken per day
 ```{r mean}
-mean(myData$steps, na.rm = TRUE)
+mean(dayData$day.steps, na.rm = TRUE)
 ```
 
 3. the median total number of steps taken per day
 ```{r median}
-median(myData$steps, na.rm = TRUE)
+median(dayData$day.steps, na.rm = TRUE)
 ```
 
 ## What is the average daily activity pattern?
@@ -66,23 +75,32 @@ completeData <- complete(imputedData, 1)
 completeData$date <- completeData$day + as.Date(c("2012-10-01"))
 ```
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day
+
+* Calculate the total number of steps taken per day
+```{r imputed per day}
+require(dplyr)
+dayCompleteData <- completeData %>%
+  group_by(date) %>%
+  summarise(day.steps=mean(steps,na.rm=TRUE))
+```
+
 * a histogram of the total number of steps taken each day
 ```{r histImputed}
-hist(completeData$steps)
+hist(dayCompleteData$day.steps)
 ```
 
 * the mean total number of steps taken per day
 ```{r meanImputed}
-mean(completeData$steps, na.rm = TRUE)
+mean(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 
 * the median total number of steps taken per day
 ```{r medianImputed}
-median(completeData$steps, na.rm = TRUE)
+median(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 * Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-Yes, the mean became slightly lower.
+Yes, both mean and median became slightly lower.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

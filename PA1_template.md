@@ -32,37 +32,7 @@ myData <- read_csv("activity.zip")
 
 ## What is mean total number of steps taken per day?
 
-1. a histogram of the total number of steps taken each day
-
-```r
-hist(myData$steps)
-```
-
-![](PA1_template_files/figure-html/hist-1.png)<!-- -->
-
-2. the mean total number of steps taken per day
-
-```r
-mean(myData$steps, na.rm = TRUE)
-```
-
-```
-## [1] 37.3826
-```
-
-3. the median total number of steps taken per day
-
-```r
-median(myData$steps, na.rm = TRUE)
-```
-
-```
-## [1] 0
-```
-
-## What is the average daily activity pattern?
-
-1. Plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+1. Calculate the total number of steps taken per day
 
 ```r
 require(dplyr)
@@ -90,6 +60,46 @@ require(dplyr)
 ```
 
 ```r
+dayData <- myData %>%
+  group_by(date) %>%
+  summarise(day.steps=mean(steps,na.rm=TRUE))
+```
+
+
+1. a histogram of the total number of steps taken each day
+
+```r
+hist(dayData$day.steps)
+```
+
+![](PA1_template_files/figure-html/hist-1.png)<!-- -->
+
+2. the mean total number of steps taken per day
+
+```r
+mean(dayData$day.steps, na.rm = TRUE)
+```
+
+```
+## [1] 37.3826
+```
+
+3. the median total number of steps taken per day
+
+```r
+median(dayData$day.steps, na.rm = TRUE)
+```
+
+```
+## [1] 37.37847
+```
+
+## What is the average daily activity pattern?
+
+1. Plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+```r
+require(dplyr)
 sumData <- myData %>%
   group_by(interval) %>%
   summarise(count=n(), 
@@ -201,10 +211,20 @@ completeData <- complete(imputedData, 1)
 completeData$date <- completeData$day + as.Date(c("2012-10-01"))
 ```
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day
+
+* Calculate the total number of steps taken per day
+
+```r
+require(dplyr)
+dayCompleteData <- completeData %>%
+  group_by(date) %>%
+  summarise(day.steps=mean(steps,na.rm=TRUE))
+```
+
 * a histogram of the total number of steps taken each day
 
 ```r
-hist(completeData$steps)
+hist(dayCompleteData$day.steps)
 ```
 
 ![](PA1_template_files/figure-html/histImputed-1.png)<!-- -->
@@ -212,7 +232,7 @@ hist(completeData$steps)
 * the mean total number of steps taken per day
 
 ```r
-mean(completeData$steps, na.rm = TRUE)
+mean(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 
 ```
@@ -222,15 +242,15 @@ mean(completeData$steps, na.rm = TRUE)
 * the median total number of steps taken per day
 
 ```r
-median(completeData$steps, na.rm = TRUE)
+median(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 0
+## [1] 36.70486
 ```
 * Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-Yes, the mean became slightly lower.
+Yes, both mean and median became slightly lower.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
