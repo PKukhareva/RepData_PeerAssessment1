@@ -62,7 +62,7 @@ require(dplyr)
 ```r
 dayData <- myData %>%
   group_by(date) %>%
-  summarise(day.steps=mean(steps,na.rm=TRUE))
+  summarise(day.steps=sum(steps,na.rm=TRUE))
 ```
 
 
@@ -81,7 +81,7 @@ mean(dayData$day.steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 37.3826
+## [1] 9354.23
 ```
 
 3. the median total number of steps taken per day
@@ -91,7 +91,7 @@ median(dayData$day.steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 37.37847
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
@@ -218,7 +218,7 @@ completeData$date <- completeData$day + as.Date(c("2012-10-01"))
 require(dplyr)
 dayCompleteData <- completeData %>%
   group_by(date) %>%
-  summarise(day.steps=mean(steps,na.rm=TRUE))
+  summarise(day.steps=sum(steps,na.rm=TRUE))
 ```
 
 * a histogram of the total number of steps taken each day
@@ -236,7 +236,7 @@ mean(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 36.93306
+## [1] 10636.72
 ```
 
 * the median total number of steps taken per day
@@ -246,11 +246,11 @@ median(dayCompleteData$day.steps, na.rm = TRUE)
 ```
 
 ```
-## [1] 36.70486
+## [1] 10571
 ```
 * Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-Yes, both mean and median became slightly lower.
+Yes, both mean and median increased.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
